@@ -20,13 +20,13 @@ model Category {
 }
 
 model Product {
-  id              String  @id @default(uuid())
+  id              String   @id @default(uuid())
   name            String
   slug            String
   description     String
-  basePrice       Decimal @db.Decimal(8, 2)
-  imageURL        String
-  discountPercent Int     @default(0)
+  basePrice       Decimal  @db.Decimal(8, 2)
+  imageUrls       String[]
+  discountPercent Int      @default(0)
 
   category   Category @relation(fields: [categoryId], references: [id])
   categoryId String
