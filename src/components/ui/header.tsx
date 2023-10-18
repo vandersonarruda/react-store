@@ -50,9 +50,11 @@ const Header = () => {
                   {data.user.image && <AvatarImage src={data.user.image} />}
                 </Avatar>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col truncate">
                   <p className="font-medium">{data.user.name}</p>
-                  <p className="text-sm opacity-75">Boas compras</p>
+                  <p className="truncate text-sm opacity-75">
+                    {data.user.email}
+                  </p>
                 </div>
               </div>
               <Separator />
