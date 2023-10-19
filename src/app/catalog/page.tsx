@@ -16,7 +16,7 @@ const CatalogPage = async () => {
         <p>Catálogo</p>
       </Badge>
 
-      <div className="grid grid-cols-2 gap-8">
+      <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {categories.map((category) => (
           <CategoryItem category={category} key={category.id} />
         ))}
