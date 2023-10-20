@@ -9,7 +9,7 @@ interface ProductListProps {
 
 const ProductList = ({ products, title }: ProductListProps) => {
   return (
-    <>
+    <div>
       <p className="mb-3 pl-5 font-bold uppercase">{title}</p>
       <div className="flex w-full gap-4 overflow-x-auto px-5 [&::-webkit-scrollbar]:hidden">
         {products.map((product) => (
@@ -18,7 +18,7 @@ const ProductList = ({ products, title }: ProductListProps) => {
           </div>
         ))}
       </div>
-    </>
+    </div>
   )
 }
 
