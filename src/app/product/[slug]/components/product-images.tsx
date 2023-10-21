@@ -24,18 +24,20 @@ const ProductImages = ({ imageUrls, name }: ProductImagesProps) => {
           height={0}
           width={0}
           sizes="100vw"
-          className="h-auto max-h-[70%] w-auto max-w-[80%]"
+          // className="h-auto max-h-[70%] w-auto max-w-[80%]"
+          className="aspect-auto max-h-[80%] w-full max-w-[80%]"
           style={{
             objectFit: 'contain',
           }}
         />
       </div>
 
-      <div className="mt-4 grid grid-cols-4 gap-4 px-4">
+      {/* <div className="mt-4 grid grid-cols-4 gap-4 px-4"> */}
+      <div className="mt-4 flex flex-row gap-4 px-4">
         {imageUrls.map((imageUrl) => (
           <button
             key={imageUrl}
-            className={`flex h-[100px] items-center justify-center rounded-lg border-2 bg-accent transition
+            className={`flex h-[100px] w-[100px] items-center justify-center rounded-lg border-2 bg-accent transition
             ${
               imageUrl === currentImage &&
               'border-2 border-solid border-primary'
@@ -48,7 +50,8 @@ const ProductImages = ({ imageUrls, name }: ProductImagesProps) => {
               width={0}
               height={0}
               sizes="100vw"
-              className="h-auto max-h-[70%] w-auto max-w-[80%]"
+              // className="h-auto max-h-[70%] w-auto max-w-[80%]"
+              className="aspect-auto max-h-[80%] w-full max-w-[80%]"
             />
           </button>
         ))}

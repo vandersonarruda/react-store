@@ -11,14 +11,15 @@ const ProductItem = ({ product }: ProductItemProps) => {
   return (
     <Link href={`/product/${product.slug}`}>
       <div className="flex flex-col gap-4">
-        <div className="relative flex h-[170px] w-full items-center justify-center rounded-lg bg-accent">
+        <div className="relative flex h-[170px] w-[170px] items-center justify-center rounded-lg bg-accent">
           <Image
             src={product.imageUrls[0]}
             alt={product.name}
             height={0}
             width={0}
             sizes="100vw"
-            className="h-auto max-h-[70%] w-auto max-w-[80%]"
+            // className="h-auto max-h-[70%] w-auto max-w-[80%]"
+            className="aspect-auto max-h-[80%] w-full max-w-[80%]"
             style={{
               objectFit: 'contain',
             }}
