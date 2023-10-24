@@ -15,6 +15,7 @@ const Cart = () => {
 
   const handleFinishPurchaseClick = async () => {
     const checkout = await createCheckout(products)
+    // console.log(checkout)
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
