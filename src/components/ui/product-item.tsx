@@ -46,7 +46,9 @@ const ProductItem = ({ product }: ProductItemProps) => {
                 </p>
               </>
             ) : (
-              <p className="font-semibold">R$ {product.basePrice.toFixed(2)}</p>
+              <p className="font-semibold">
+                R$ {Number(product.basePrice).toFixed(2)}
+              </p>
             )}
           </div>
         </div>
