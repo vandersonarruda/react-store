@@ -4,7 +4,12 @@ import { Button } from '@/components/ui/button'
 import DiscountBadge from '@/components/ui/discount-badge'
 import { ProductWithTotalPrice } from '@/helpers/product'
 import { CartContext } from '@/providers/cart'
-import { ArrowLeftIcon, ArrowRightIcon, TruckIcon } from 'lucide-react'
+import {
+  ArrowLeftIcon,
+  ArrowRightIcon,
+  ShoppingCart,
+  TruckIcon,
+} from 'lucide-react'
 
 import { useContext, useState } from 'react'
 
@@ -87,7 +92,7 @@ const ProductInfo = ({ product }: ProductInfoProps) => {
         className="mt-8 font-bold uppercase"
         onClick={handleAddToCartClick}
       >
-        Adicionar ao carrinho
+        <ShoppingCart /> Adicionar ao carrinho
       </Button>
 
       <div className="mt-5 flex items-center justify-between rounded-lg bg-accent px-5 py-2">
