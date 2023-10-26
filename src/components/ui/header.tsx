@@ -1,5 +1,6 @@
 'use client'
 
+import { CartContext } from '@/providers/cart'
 import {
   HomeIcon,
   ListOrderedIcon,
@@ -9,8 +10,14 @@ import {
   PercentIcon,
   ShoppingCartIcon,
 } from 'lucide-react'
+import { signIn, signOut, useSession } from 'next-auth/react'
+import Link from 'next/link'
+import { useContext } from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from './avatar'
 import { Button } from './button'
 import { Card } from './card'
+import Cart from './cart'
+import { Separator } from './separator'
 import {
   Sheet,
   SheetClose,
@@ -18,14 +25,15 @@ import {
   SheetHeader,
   SheetTrigger,
 } from './sheet'
-import { Separator } from './separator'
-import { signIn, signOut, useSession } from 'next-auth/react'
-import { Avatar, AvatarFallback, AvatarImage } from './avatar'
-import Link from 'next/link'
-import Cart from './cart'
 
 const Header = () => {
   const { status, data } = useSession()
+
+  const { products } = useContext(CartContext)
+
+  const cartQuantityItems = products.reduce((acc, product) => {
+    return acc + product.quantity
+  }, 0)
 
   const handleLoginClick = async () => {
     await signIn()
@@ -145,7 +153,12 @@ const Header = () => {
       {/* Cart */}
       <Sheet>
         <SheetTrigger asChild>
-          <Button size="icon" variant="outline">
+          <Button size="icon" variant="outline" className="relative">
+            {cartQuantityItems > 0 && (
+              <span className="absolute right-[calc(-1.25rem/2)] top-[calc(-1.25rem/2)] flex h-6 w-6 items-center justify-center rounded-full bg-primary text-xs font-semibold">
+                {cartQuantityItems}
+              </span>
+            )}
             <ShoppingCartIcon />
           </Button>
         </SheetTrigger>
