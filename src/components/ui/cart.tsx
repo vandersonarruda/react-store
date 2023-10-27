@@ -84,7 +84,7 @@ const Cart = () => {
           </div>
 
           <Button
-            className="mt-5 font-bold uppercase"
+            className="mt-5 w-full font-bold uppercase"
             onClick={handleFinishPurchaseClick}
           >
             Finalizar Compra
