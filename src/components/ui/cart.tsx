@@ -9,13 +9,24 @@ import { ScrollArea } from './scroll-area'
 import { Button } from './button'
 import { createCheckout } from '@/actions/checkout'
 import { loadStripe } from '@stripe/stripe-js'
+import { createOrder } from '@/actions/order'
+import { useSession } from 'next-auth/react'
 
 const Cart = () => {
+  const { data } = useSession()
+
   const { products, total, subtotal, totalDiscount } = useContext(CartContext)
 
   const handleFinishPurchaseClick = async () => {
+    if (!data?.user) {
+      // TODO: redirect to login page
+      return
+    }
+
+    // create order on db
+    const order = await createOrder(products, (data?.user as any).id)
+
     const checkout = await createCheckout(products)
-    // console.log(checkout)
 
     const stripe = await loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLIC_KEY)
 
@@ -84,7 +95,7 @@ const Cart = () => {
           </div>
 
           <Button
-            className="mt-5 w-full font-bold uppercase"
+            className="mt-7 w-full font-bold uppercase"
             onClick={handleFinishPurchaseClick}
           >
             Finalizar Compra
