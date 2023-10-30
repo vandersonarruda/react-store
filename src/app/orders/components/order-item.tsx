@@ -1,3 +1,5 @@
+'use client'
+
 import {
   Accordion,
   AccordionContent,
@@ -8,6 +10,9 @@ import { Card } from '@/components/ui/card'
 import { Prisma } from '@prisma/client'
 import { format } from 'date-fns'
 import OrderProductItem from './order-product-item'
+import { Separator } from '@radix-ui/react-separator'
+import { computeProductTotalPrice } from '@/helpers/product'
+import { useMemo } from 'react'
 
 interface OrderItemProps {
   order: Prisma.OrderGetPayload<{
@@ -22,13 +27,34 @@ interface OrderItemProps {
 }
 
 const OrderItem = ({ order }: OrderItemProps) => {
+  const subtotal = useMemo(() => {
+    return order.orderProduct.reduce((acc, orderProduct) => {
+      return (
+        acc + Number(orderProduct.product.basePrice) * orderProduct.quantity
+      )
+    }, 0)
+  }, [order.orderProduct])
+
+  const total = useMemo(() => {
+    return order.orderProduct.reduce((acc, product) => {
+      const productWithTotalPrice = computeProductTotalPrice(product.product)
+
+      return acc + productWithTotalPrice.totalPrice * product.quantity
+    }, 0)
+  }, [order.orderProduct])
+
+  const totalDiscounts = subtotal - total
+
   return (
     <Card className="px-5">
       <Accordion type="single" className="w-full" collapsible>
         <AccordionItem value={order.id}>
           <AccordionTrigger>
             <div className="flex flex-col gap-1 text-left">
-              Pedido com {order.orderProduct.length} produto(s)
+              <p>Pedido com {order.orderProduct.length} produto(s)</p>
+              <p className="text-sm opacity-60">
+                {format(order.createAt, 'd/MM/y')}
+              </p>
             </div>
           </AccordionTrigger>
           <AccordionContent>
@@ -37,13 +63,6 @@ const OrderItem = ({ order }: OrderItemProps) => {
                 <div className="font-bold">
                   <p>Status</p>
                   <p className="text-[#8162FF]">{order.status}</p>
-                </div>
-
-                <div>
-                  <p className="font-bold">Data</p>
-                  <p className="opacity-60">
-                    {format(order.createAt, 'd/MM/y')}
-                  </p>
                 </div>
 
                 <div>
@@ -58,6 +77,37 @@ const OrderItem = ({ order }: OrderItemProps) => {
                   orderProduct={orderProduct}
                 />
               ))}
+
+              {/* Total */}
+              <div className="flex w-full flex-col gap-1 text-xs">
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 lg:text-sm">
+                  <p>Subtotal</p>
+                  <p>R$ {subtotal.toFixed(2)}</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 lg:text-sm">
+                  <p>Entrega</p>
+                  <p>GRÁTIS</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 lg:text-sm">
+                  <p>Descontos</p>
+                  <p>-R$ {totalDiscounts.toFixed(2)}</p>
+                </div>
+
+                <Separator />
+
+                <div className="flex w-full justify-between py-3 text-sm font-bold lg:text-base">
+                  <p>Total</p>
+                  <p>R$ {total.toFixed(2)}</p>
+                </div>
+              </div>
             </div>
           </AccordionContent>
         </AccordionItem>
