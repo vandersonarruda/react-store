@@ -8,15 +8,15 @@ import OrderItem from './components/order-item'
 export const dynamic = 'force-dynamic'
 
 const OrderPage = async () => {
-  const user = getServerSession(authOptions)
+  const session = await getServerSession(authOptions)
 
-  if (!user) {
-    return <p>Access denied</p>
+  if (!session || !session.user) {
+    return <p>Access Denied</p>
   }
 
   const orders = await prismaClient.order.findMany({
     where: {
-      userId: (user as any).id,
+      userId: session.user.id,
     },
     include: {
       orderProduct: {
